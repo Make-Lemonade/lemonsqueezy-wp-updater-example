@@ -11,17 +11,17 @@ This repository contains an example WordPress plugin that demonstrates how to im
 
 ### 2. Set up the updater class
 
-1. Copy the `includes/class-plugin-updater.php` file into your plugin.
+1. Copy the [`includes/class-plugin-updater.php`](includes/class-plugin-updater.php) file into your plugin.
 1. Rename the `ExamplePluginUpdater` class so that it's unique to your plugin (e.g. `MyPluginUpdater`)
 1. Override the `get_license_key()` method to retrieve the users Lemon Squeezy license key. Normally, your plugin would have a settings page where you ask for and store a license key.
 
-### 4. Instanciate the updater class
+### 3. Instanciate the updater class
 
 1. In your plugin code, store the plugin version (e.g. in a `define( 'EXAMPLE_PLUGIN_VERSION', '1.0.0' )`).
 1. In your plugin code, store the API URL for the updater. This should point to your WordPress site that is running the Lemon Squeezy WordPress plugin (e.g. `define( 'EXAMPLE_PLUGIN_API_URL', 'http://example.com/wp-json/lsq/v1' )`)
 1. Instanciate your updater class, passing in the plugin ID and plugin slug as well as the plugin version and API URL.
 
-See `example-plugin.php` for an example of how to set this up.
+See [`example-plugin.php`](example-plugin.php) for an example of how to set this up.
 
 ## How it works
 
