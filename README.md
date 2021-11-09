@@ -32,7 +32,7 @@ See [`example-plugin.php`](example-plugin.php) for an example of how to set this
 ```
 ┌─────────────────────────┐                  ┌───────────────────────────────────┐                   ┌─────────────────────┐
 │                         │                  │                                   │                   │                     │
-│  Your WordPress Plugin  │                  │  Lemon Squeezy  WordPress Plugin  │                   │  Lemon Squeezy API  │
+│  Your WordPress Plugin  │                  │  Lemon Squeezy WordPress Updater  │                   │  Lemon Squeezy API  │
 │                         │                  │                                   │                   │                     │
 └───────────┬─────────────┘                  └─────────────────┬─────────────────┘                   └──────────┬──────────┘
             │                                                  │                                                │
