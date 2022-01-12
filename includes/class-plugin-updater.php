@@ -73,6 +73,9 @@ class ExamplePluginUpdater {
 	 */
 	public function request() {
 		$lsq_license_key = $this->get_license_key();
+		if ( ! $lsq_license_key ) {
+			return false;
+		}
 
 		$remote = get_transient( $this->cache_key );
 		if ( false === $remote || ! $this->cache_allowed ) {
