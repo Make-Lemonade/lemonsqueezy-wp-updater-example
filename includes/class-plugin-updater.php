@@ -167,7 +167,7 @@ class ExamplePluginUpdater {
 			&& version_compare( $this->version, $remote->update->version, '<' )
 		) {
 			$res->new_version = $remote->update->version;
-			$res->package     = $remote->update->download_url;
+			$res->package     = $remote->update->download_link;
 
 			$transient->response[ $res->plugin ] = $res;
 		} else {
