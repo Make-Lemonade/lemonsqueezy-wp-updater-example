@@ -63,7 +63,9 @@ class ExamplePluginUpdater {
 	 * @return string
 	 */
 	protected function get_license_key() {
-		return get_option( 'example_plugin_license_key' );
+		// See class-settings-page.php
+		$example_plugin_settings_options = get_option( 'example_plugin_settings_option_name' );
+		return isset( $example_plugin_settings_options['api_key_0'] ) ? $example_plugin_settings_options['api_key_0'] : null;
 	}
 
 	/**

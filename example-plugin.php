@@ -33,6 +33,7 @@ if ( ! defined( 'EXAMPLE_PLUGIN_API_URL' ) ) {
  * Import the plugin updater class.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-updater.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-settings-page.php';
 
 /**
  * Instanciate the updater class.
