@@ -7,7 +7,7 @@
  * Author URI:      YOUR SITE HERE
  * Text Domain:     example-plugin
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         1.0.0
  */
 
 // If this file is called directly, abort.
