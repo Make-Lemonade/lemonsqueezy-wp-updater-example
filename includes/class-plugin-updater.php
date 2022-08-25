@@ -80,28 +80,36 @@ class ExamplePluginUpdater {
 		}
 
 		$remote = get_transient( $this->cache_key );
-		if ( false === $remote || ! $this->cache_allowed ) {
-			$remote = wp_remote_get(
-				$this->api_url . "/update?license_key={$lsq_license_key}",
-				array(
-					'timeout' => 10,
-				)
-			);
-
-			if (
-				is_wp_error( $remote )
-				|| 200 !== wp_remote_retrieve_response_code( $remote )
-				|| empty( wp_remote_retrieve_body( $remote ) )
-			) {
+		if ( false !== $remote && $this->cache_allowed ) {
+			if ( 'error' === $remote ) {
 				return false;
 			}
 
-			set_transient( $this->cache_key, $remote, DAY_IN_SECONDS );
+			return json_decode( $remote );
 		}
 
-		$remote = json_decode( wp_remote_retrieve_body( $remote ) );
+		$remote = wp_remote_get(
+			$this->api_url . "/update?license_key={$lsq_license_key}",
+			array(
+				'timeout' => 10,
+			)
+		);
 
-		return $remote;
+		if (
+			is_wp_error( $remote )
+			|| 200 !== wp_remote_retrieve_response_code( $remote )
+			|| empty( wp_remote_retrieve_body( $remote ) )
+		) {
+			set_transient( $this->cache_key, 'error', MINUTE_IN_SECONDS * 10 );
+
+			return false;
+		}
+
+		$payload = wp_remote_retrieve_body( $remote );
+
+		set_transient( $this->cache_key, $payload, DAY_IN_SECONDS );
+
+		return json_decode( $payload );
 	}
 
 	/**
