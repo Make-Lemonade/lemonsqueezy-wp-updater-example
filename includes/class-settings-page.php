@@ -91,7 +91,8 @@ class ExamplePluginSettings {
 			}
 		}
 
-		if ( $message ) {
+		$license_key = get_option( 'example_plugin_settings_option_name' );
+		if ( isset( $license_key['api_key_0'] ) && ! empty( $license_key['api_key_0'] ) && $message ) {
 			echo "<p class='description'>{$message}</p>";
 		}
 	}
