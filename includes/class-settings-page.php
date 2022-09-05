@@ -149,7 +149,7 @@ class ExamplePluginSettings {
 			'timeout' => 10,
 		] );
 
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 			delete_option( 'example_plugin_license_message' );
 		}
 	}
