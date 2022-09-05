@@ -6,6 +6,7 @@ class ExamplePluginSettings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'example_plugin_settings_add_plugin_page' ) );
 		add_action( 'admin_init', array( $this, 'example_plugin_settings_page_init' ) );
+		add_action( "update_option_example_plugin_settings_option_name", array( $this, 'activate_license' ), 10, 3 );
 	}
 
 	public function example_plugin_settings_add_plugin_page() {
@@ -78,6 +79,48 @@ class ExamplePluginSettings {
 			'<input class="regular-text" type="text" name="example_plugin_settings_option_name[api_key_0]" id="api_key_0" value="%s">',
 			isset( $this->example_plugin_settings_options['api_key_0'] ) ? esc_attr( $this->example_plugin_settings_options['api_key_0'] ) : ''
 		);
+
+		$license_message = json_decode(get_option( 'example_plugin_license_message' ));
+		$message = false;
+
+		if ( isset( $license_message->data->activated ) ) {
+			if ( $license_message->data->activated ) {
+				$message = "License is active. You have {$license_message->data->license_key->activation_usage}/{$license_message->data->license_key->activation_limit} instances activated.";
+			} else {
+				$message = $license_message->error ?: "License for this site is not active. Click the button below to activate.";
+			}
+		}
+
+		if ( $message ) {
+			echo "<p class='description'>{$message}</p>";
+		}
+	}
+
+	public function activate_license( $old_value, $new_value, $option ) {
+		if ( isset( $new_value['api_key_0'] ) && ! empty( $new_value['api_key_0'] ) && $old_value['api_key_0'] !== $new_value['api_key_0'] ) {
+			$activation_url = add_query_arg(
+				[
+					'license_key' => $new_value['api_key_0'],
+					'instance_name' => home_url(),
+				],
+				EXAMPLE_PLUGIN_API_URL . '/activate'
+			);
+
+			$response = wp_remote_get( $activation_url, [
+				'sslverify' => false,
+				'timeout' => 10,
+			] );
+
+			if (
+				is_wp_error( $response )
+				|| ( 200 !== wp_remote_retrieve_response_code( $response ) && 400 !== wp_remote_retrieve_response_code( $response ) )
+				|| empty( wp_remote_retrieve_body( $response ) )
+			) {
+				return;
+			}
+
+			update_option( 'example_plugin_license_message', wp_remote_retrieve_body( $response ) );
+		}
 	}
 
 }
